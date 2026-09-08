@@ -70,6 +70,7 @@
             z-index: 1000;
             padding: 0.8rem 2rem;
             box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            transition: var(--transition);
         }
 
         .nav-container {
@@ -118,6 +119,18 @@
 
         .nav-links a:hover {
             color: var(--primary);
+        }
+
+        /* زر قائمة الجوال (الثلاث خطوط) */
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--primary);
+            cursor: pointer;
+            background: none;
+            border: none;
+            outline: none;
+            transition: var(--transition);
         }
 
         /* Hero Section الترحيبي */
@@ -431,11 +444,102 @@
             font-weight: 600;
         }
 
+        /* Responsive Media Queries - التجاوب مع جميع الأجهزة */
         @media (max-width: 992px) {
-            .col-8, .col-6, .col-4 { grid-column: span 12; }
-            .hero h1 { font-size: 2.3rem; }
-            .nav-links { display: none; }
-            .card-header-row { flex-direction: column; gap: 10px; }
+            header {
+                width: 95%;
+                padding: 0.8rem 1.5rem;
+                border-radius: 30px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                flex-direction: column;
+                align-items: center;
+                padding: 1.5rem 0;
+                gap: 1.2rem;
+                border: 1px solid var(--border-card);
+                border-radius: 20px;
+                box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-10px);
+                transition: var(--transition);
+            }
+
+            .nav-links.active {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+
+            .col-12, .col-8, .col-6, .col-4 { 
+                grid-column: span 12; 
+            }
+
+            .hero {
+                padding-top: 130px;
+            }
+
+            .hero h1 { 
+                font-size: 2.2rem; 
+            }
+
+            .hero p.subtitle {
+                font-size: 1.1rem;
+            }
+
+            .hero-bio {
+                padding: 1.5rem;
+                font-size: 1rem;
+            }
+
+            .contact-card h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            section {
+                padding: 40px 1.2rem;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.8rem;
+            }
+
+            .stat-card {
+                padding: 1rem;
+            }
+
+            .stat-num {
+                font-size: 1.8rem;
+            }
+
+            .card-header-row { 
+                flex-direction: column; 
+                gap: 10px; 
+            }
+
+            .contact-btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -448,7 +552,13 @@
                 <div class="logo-badge"><i class="fas fa-shapes"></i></div>
                 إلهام الذبياني
             </a>
-            <ul class="nav-links">
+            
+            <!-- زر 3 خطوط للجوال -->
+            <button class="menu-toggle" id="menuToggle" aria-label="القائمة">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <ul class="nav-links" id="navLinks">
                 <li><a href="#about">عني</a></li>
                 <li><a href="#education">المؤهلات</a></li>
                 <li><a href="#experience">الخبرات والتدريب</a></li>
@@ -551,9 +661,8 @@
                         <i class="fas fa-building-flag"></i> جمعية تمكين القيادات للتدريب والتأهيل لسوق العمل (تمكين - رفحاء)
                     </p>
                     <ul class="feature-list" style="margin-top: 12px;">
-                        <li><i class="fas fa-check-circle"></i> تقديم برنامج تدريبي مكثف مخصص لبناء وتأهيل الكوادر التدريبية في مجال الطفولة.</li>
+                        <li><i class="fas fa-check-circle"></i> تقديم برنامج تدريبي مكثف مخصص لبناء وتأهيل الكوادر التدريبية في مجال الطفولة المبكرة.</li>
                         <li><i class="fas fa-check-circle"></i> التدريب على إعداد الحقائب التدريبية واستراتيجيات الإدارة الصفية الحديثة.</li>
-                        <li><i class="fas fa-check-circle"></i> مُوثقة بشهادة شكر وتقدير رسمية برقم ترخيص (1614) وتحت إشراف وزارة الموارد البشرية والتنمية الاجتماعية.</li>
                     </ul>
                 </div>
             </div>
@@ -577,7 +686,7 @@
         </div>
     </section>
 
- <!-- قسم الأبحاث العلمية Research -->
+    <!-- قسم الأبحاث العلمية Research -->
     <section id="research">
         <div class="section-header">
             <h2>الأبحاث والمشاركات العلمية</h2>
@@ -597,7 +706,6 @@
                     </p>
                     <p class="card-desc" style="font-size: 0.9rem;">
                         <strong>جهة النشر:</strong> المجلة العربية للعلوم ونشر الأبحاث (AJSRP) - مجلة المناهج وطرق التدريس (المجلد 6 - العدد 16)<br>
-                        <strong>معرف الرقم الرقمي:</strong> <span style="color: var(--accent); font-weight: 800;">DOI: 10.26389/AJSRP.L220722</span>
                     </p>
                 </div>
             </div>
@@ -623,77 +731,75 @@
         </div>
     </section>
 
-<!-- قسم الإصدارات والإنتاج التربوي Portfolio -->
-<section id="portfolio">
-    <div class="section-header">
-        <h2>الإصدارات والإنتاج التربوي</h2>
-    </div>
-    <div class="bento-grid">
-        
-        <!-- كراسة رحلة مع الأرقام -->
-        <div class="bento-card col-4">
-            <div>
-                <div class="card-icon-box" style="color: var(--gold); background: rgba(217,119,6,0.08);"><i class="fas fa-book-open"></i></div>
-                <h3 class="card-title">كراسة "رحلة مع الأرقام"</h3>
-                <p class="card-desc">
-                    كتاب أنشطة تعليمي تفاعلي مصمم خصيصاً لأطفال الروضة لتعلم الأرقام (1 - 20) من خلال رحلة استكشافية ممتعة في أعماق البحر.
-                </p>
-                <ul class="feature-list" style="margin-top: 10px;">
-                    <li><i class="fas fa-star"></i> أنشطة التلوين والربط الذهني.</li>
-                    <li><i class="fas fa-star"></i> تطبيقات حسابية مبسطة للطفل.</li>
-                </ul>
-            </div>
+    <!-- قسم الإصدارات والإنتاج التربوي Portfolio -->
+    <section id="portfolio">
+        <div class="section-header">
+            <h2>الإصدارات والإنتاج التربوي</h2>
         </div>
-
-        <!-- كراسة رحلة مع الحروف -->
-        <div class="bento-card col-4">
-            <div>
-                <div class="card-icon-box" style="color: #10b981; background: rgba(16, 185, 129, 0.08); font-weight: bold; font-size: 1.2rem;">أ</div>
-                <h3 class="card-title">كراسة "رحلة مع الحروف"</h3>
-                <p class="card-desc">
-                    كراسة أنشطة تفاعلية لتعليم أطفال الروضة الحروف الهجائية ومخارجها وأشكالها المختلفة بأسلوب ممتع وشيق.
-                </p>
-                <ul class="feature-list" style="margin-top: 10px;">
-                    <li><i class="fas fa-star"></i> تمارين كتابة وتتبع الأثر.</li>
-                    <li><i class="fas fa-star"></i> ربط الحروف بالصور والكلمات الشائعة.</li>
-                </ul>
+        <div class="bento-grid">
+            
+            <!-- كراسة رحلة مع الأرقام -->
+            <div class="bento-card col-4">
+                <div>
+                    <div class="card-icon-box" style="color: var(--gold); background: rgba(217,119,6,0.08);"><i class="fas fa-book-open"></i></div>
+                    <h3 class="card-title">كراسة "رحلة مع الأرقام"</h3>
+                    <p class="card-desc">
+                        كتاب أنشطة تعليمي تفاعلي مصمم خصيصاً لأطفال الروضة لتعلم الأرقام (1 - 20) من خلال رحلة استكشافية ممتعة في أعماق البحر.
+                    </p>
+                    <ul class="feature-list" style="margin-top: 10px;">
+                        <li><i class="fas fa-star"></i> أنشطة التلوين والربط الذهني.</li>
+                        <li><i class="fas fa-star"></i> تطبيقات حسابية مبسطة للطفل.</li>
+                    </ul>
+                </div>
             </div>
-        </div>
 
-        <!-- وسيلة الفصول الأربعة -->
-        <div class="bento-card col-4">
-            <div>
-                <div class="card-icon-box" style="color: var(--primary); background: rgba(124, 58, 237, 0.08);"><i class="fas fa-cloud-sun-rain"></i></div>
-                <h3 class="card-title">وسيلة "الفصول الأربعة"</h3>
-                <p class="card-desc">
-                    وسيلة تعليمية تفاعلية بصرية تهدف لتعريف طفل الروضة بمفهوم الفصول المناخية الأربعة وتغيرات الطبيعة بأسلوب مشوق وملموس.
-                </p>
-                <ul class="feature-list" style="margin-top: 10px;">
-                    <li><i class="fas fa-star"></i> تعزيز الإدراك البيئي والملاحظة.</li>
-                    <li><i class="fas fa-star"></i> عناصر تفاعلية حركية للأطفال.</li>
-                </ul>
+            <!-- كراسة رحلة مع الحروف -->
+            <div class="bento-card col-4">
+                <div>
+                    <div class="card-icon-box" style="color: #10b981; background: rgba(16, 185, 129, 0.08); font-weight: bold; font-size: 1.2rem;">أ</div>
+                    <h3 class="card-title">كراسة "رحلة مع الحروف"</h3>
+                    <p class="card-desc">
+                        كراسة أنشطة تفاعلية لتعليم أطفال الروضة الحروف الهجائية ومخارجها وأشكالها المختلفة بأسلوب ممتع وشيق.
+                    </p>
+                    <ul class="feature-list" style="margin-top: 10px;">
+                        <li><i class="fas fa-star"></i> تمارين كتابة وتتبع الأثر.</li>
+                        <li><i class="fas fa-star"></i> ربط الحروف بالصور والكلمات الشائعة.</li>
+                    </ul>
+                </div>
             </div>
-        </div>
 
-        <!-- وسيلة دورة حياة المطر -->
-        <div class="bento-card col-4">
-            <div>
-                <div class="card-icon-box" style="color: var(--accent); background: rgba(2, 132, 199, 0.08);"><i class="fas fa-water"></i></div>
-                <h3 class="card-title">وسيلة "دورة حياة المطر"</h3>
-                <p class="card-desc">
-                    تصميم مجسم/وسيلة إيضاحية تجسد مراحل تبخر الماء وتكثفه وسقوط الأمطار لشرح الظواهر الطبيعية المبسطة لطفل الروضة.
-                </p>
-                <ul class="feature-list" style="margin-top: 10px;">
-                    <li><i class="fas fa-star"></i> تبسيط المفاهيم العلمية بذكاء.</li>
-                    <li><i class="fas fa-star"></i> تنمية التفكير العلمي والتساؤل.</li>
-                </ul>
+            <!-- وسيلة الفصول الأربعة -->
+            <div class="bento-card col-4">
+                <div>
+                    <div class="card-icon-box" style="color: var(--primary); background: rgba(124, 58, 237, 0.08);"><i class="fas fa-cloud-sun-rain"></i></div>
+                    <h3 class="card-title">وسيلة "الفصول الأربعة"</h3>
+                    <p class="card-desc">
+                        وسيلة تعليمية تفاعلية بصرية تهدف لتعريف طفل الروضة بمفهوم الفصول المناخية الأربعة وتغيرات الطبيعة بأسلوب مشوق وملموس.
+                    </p>
+                    <ul class="feature-list" style="margin-top: 10px;">
+                        <li><i class="fas fa-star"></i> تعزيز الإدراك البيئي والملاحظة.</li>
+                        <li><i class="fas fa-star"></i> عناصر تفاعلية حركية للأطفال.</li>
+                    </ul>
+                </div>
             </div>
+
+            <!-- وسيلة دورة حياة المطر -->
+            <div class="bento-card col-4">
+                <div>
+                    <div class="card-icon-box" style="color: var(--accent); background: rgba(2, 132, 199, 0.08);"><i class="fas fa-water"></i></div>
+                    <h3 class="card-title">وسيلة "دورة حياة المطر"</h3>
+                    <p class="card-desc">
+                        تصميم مجسم/وسيلة إيضاحية تجسد مراحل تبخر الماء وتكثفه وسقوط الأمطار لشرح الظواهر الطبيعية المبسطة لطفل الروضة.
+                    </p>
+                    <ul class="feature-list" style="margin-top: 10px;">
+                        <li><i class="fas fa-star"></i> تبسيط المفاهيم العلمية بذكاء.</li>
+                        <li><i class="fas fa-star"></i> تنمية التفكير العلمي والتساؤل.</li>
+                    </ul>
+                </div>
+            </div>
+
         </div>
-
-    </div>
-</section>
-
-
+    </section>
 
     <!-- قسم المهارات Skills -->
     <section id="skills">
@@ -738,5 +844,36 @@
         <p>جميع الحقوق محفوظة &copy; 2026 - إلهام عبدالعزيز ماطر الذبياني</p>
     </footer>
 
+    <!-- سكربت التحكم بقائمة الجوال -->
+    <script>
+        const menuToggle = id = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        const menuIcon = menuToggle.querySelector('i');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            
+            // تغيير شكل الأيقونة بين الخطوط ورمز الإغلاق (X)
+            if (navLinks.classList.contains('active')) {
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-xmark');
+            } else {
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            }
+        });
+
+        // إغلاق القائمة تلقائياً عند الضغط على أي رابط
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            });
+        });
+    </script>
+
 </body>
 </html>
+
+       
