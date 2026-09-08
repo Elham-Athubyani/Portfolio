@@ -79,30 +79,29 @@
             align-items: center;
         }
 
-        .logo {
-            font-size: 1.35rem;
-            font-weight: 900;
-            background: var(--grad-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+       /* تنسيق رابط اللوقو وتوسيط محتوياته راسياً */
+.logo {
+    display: flex;
+    align-items: center; /* ضبط اللوقو والنص على نفس الخط العمودي */
+    gap: 12px;           /* مسافة جيدة بين الصورة والنص */
+    text-decoration: none;
+}
 
-        .logo-badge {
-            width: 36px;
-            height: 36px;
-            background: var(--grad-primary);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 0.95rem;
-        }
+/* ضبط حجم وحواف صورة اللوقو */
+.logo-img {
+    height: 42px;        /* ارتفاع مناسب للهيدر */
+    width: auto;         /* المحافظة على نسبة الأبعاد بدون تشويه */
+    object-fit: contain;
+    border-radius: 8px;  /* تحسين المظهر بحواف ناعمة */
+}
 
+/* تنسيق النص المرفق باللوقو */
+.logo-text {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--text-main, #0F172A);
+    white-space: nowrap; /* منع انكسار النص لسطر جديد */
+}
         .nav-links {
             display: flex;
             list-style: none;
@@ -548,10 +547,11 @@
     <!-- القائمة العلوية Header -->
     <header>
         <div class="nav-container">
-            <a href="#" class="logo">
-<img src="logo.jpg" alt="إلهام عبدالعزيز - شعار
-" class="logo-img">                إلهام الذبياني
-            </a>
+           <a href="#" class="logo">
+    <img src="logo.jpg" alt="إلهام الذبياني - شعار" class="logo-img">
+    <span>إلهام الذبياني</span>
+</a>
+            
             <!-- زر 3 خطوط للجوال -->
             <button class="menu-toggle" id="menuToggle" aria-label="القائمة">
                 <i class="fas fa-bars"></i>
@@ -874,5 +874,3 @@
 
 </body>
 </html>
-
-       
